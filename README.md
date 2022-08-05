@@ -1,2 +1,2 @@
 # glog
-Simple golang loggger package
+Simple log package for golang
