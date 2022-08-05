@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime/debug"
 	"sort"
 	"strings"
 	"sync"
@@ -106,7 +107,9 @@ func Path(path string, patterns ...string) Option {
 
 			for _, ch := range pattern {
 				if os.IsPathSeparator(uint8(ch)) {
-					panic("pattern contains path separator")
+					fmt.Fprintf(os.Stderr, "pattern contains path separator")
+					debug.PrintStack()
+					os.Exit(1)
 				}
 			}
 
@@ -218,7 +221,9 @@ func (f *file) run(ready func()) {
 	)
 
 	if err = f.rotate(); err != nil {
-		panic(err)
+		fmt.Fprintf(os.Stderr, "%v", err)
+		debug.PrintStack()
+		os.Exit(1)
 	}
 
 	ready()

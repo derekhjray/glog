@@ -212,7 +212,9 @@ func (ctx *context) setMode(mode string) {
 	} else if mode == ModeRelease {
 		ctx.mode = ModeRelease
 	} else {
-		panic("invalid logger mode, only accept release/debug/dev/devel")
+		fmt.Fprintf(os.Stderr, "invalid logger mode, only accept release/debug/dev/devel")
+		debug.PrintStack()
+		os.Exit(1)
 	}
 }
 
